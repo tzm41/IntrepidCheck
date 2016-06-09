@@ -77,12 +77,9 @@
 		3B6371E41D09A58D008F76E3 /* IntrepidCheck */ = {
 			isa = PBXGroup;
 			children = (
-				3B6371E51D09A58D008F76E3 /* AppDelegate.swift */,
-				3B6371E71D09A58D008F76E3 /* ViewController.swift */,
-				3B6371E91D09A58D008F76E3 /* Main.storyboard */,
-				3B6371EC1D09A58D008F76E3 /* Assets.xcassets */,
-				3B6371EE1D09A58D008F76E3 /* LaunchScreen.storyboard */,
-				3B6371F11D09A58D008F76E3 /* Info.plist */,
+				3B6372071D09A623008F76E3 /* Controller */,
+				3B6372061D09A61B008F76E3 /* Storyboard */,
+				3B6372051D09A5FF008F76E3 /* Supporting Files */,
 			);
 			path = IntrepidCheck;
 			sourceTree = "<group>";
@@ -94,6 +91,33 @@
 				3B6371FC1D09A58D008F76E3 /* Info.plist */,
 			);
 			path = IntrepidCheckTests;
+			sourceTree = "<group>";
+		};
+		3B6372051D09A5FF008F76E3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B6371E51D09A58D008F76E3 /* AppDelegate.swift */,
+				3B6371EC1D09A58D008F76E3 /* Assets.xcassets */,
+				3B6371F11D09A58D008F76E3 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3B6372061D09A61B008F76E3 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				3B6371EE1D09A58D008F76E3 /* LaunchScreen.storyboard */,
+				3B6371E91D09A58D008F76E3 /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		3B6372071D09A623008F76E3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3B6371E71D09A58D008F76E3 /* ViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
