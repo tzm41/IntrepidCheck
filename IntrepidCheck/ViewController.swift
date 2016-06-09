@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    // MARK: - Properties
+    @IBOutlet weak var checkingSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()

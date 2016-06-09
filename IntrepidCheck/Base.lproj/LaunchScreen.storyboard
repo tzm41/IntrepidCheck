@@ -24,7 +24,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Intrepid Check" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j33-VL-tuw">
-                                <rect key="frame" x="213" y="284" width="175" height="32"/>
+                                <rect key="frame" x="213" y="284" width="175" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="175" id="5sb-e2-bGW"/>
                                 </constraints>
