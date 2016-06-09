@@ -17,18 +17,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfo-7f-SoJ">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xfo-7f-SoJ">
                                 <rect key="frame" x="276" y="284" width="51" height="31"/>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track my location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9Q-Nu-fc8">
+                                <rect key="frame" x="230" y="255" width="140" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xfo-7f-SoJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2fi-hI-1hA"/>
+                            <constraint firstItem="Z9Q-Nu-fc8" firstAttribute="centerX" secondItem="xfo-7f-SoJ" secondAttribute="centerX" id="RqS-7N-ikL"/>
                             <constraint firstItem="xfo-7f-SoJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nY1-Lm-ghU"/>
+                            <constraint firstItem="xfo-7f-SoJ" firstAttribute="top" secondItem="Z9Q-Nu-fc8" secondAttribute="bottom" constant="8" symbolic="YES" id="vQB-ax-MNW"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="checkingSwitch" destination="xfo-7f-SoJ" id="n4Y-5t-JgP"/>
+                        <outlet property="isCheckingSwitch" destination="xfo-7f-SoJ" id="tSC-cX-rJn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

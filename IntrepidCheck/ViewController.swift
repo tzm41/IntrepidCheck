@@ -11,9 +11,11 @@ import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Properties
-    @IBOutlet weak var checkingSwitch: UISwitch!
+    @IBOutlet weak var isCheckingSwitch: UISwitch!
     
     let locationManager = CLLocationManager()
+    
+    var isTracking = false
     
     // location of Intrepid Pursuits Third Street Office
     let fenceCenterLatitude = 42.367063
@@ -25,14 +27,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        isCheckingSwitch.addTarget(self, action: #selector(ViewController.isCheckingSwitchIsFlipped), forControlEvents: UIControlEvents.ValueChanged)
+        
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
-        
         locationManager.startMonitoringForRegion(defineGeofence())
     }
     
+    // MARK: - UISwitch
+    func isCheckingSwitchIsFlipped() {
+        isTracking = isCheckingSwitch.on
+        print("Switch flipped")
+    }
+    
     // MARK: - CLLocationManagerDelegate
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("Entered region")
+    }
+    
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        print("Exited region")
+    }
+    
     func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
         print("Successfully started managing for region")
     }
