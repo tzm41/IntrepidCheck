@@ -14,12 +14,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var isCheckingSwitch: UISwitch!
     
     let locationManager = CLLocationManager()
+    let notification = UILocalNotification()
     
     var isTracking = false
     
     // location of Intrepid Pursuits Third Street Office
     let fenceCenterLatitude = 42.367063
-    let fenceCenterLogitude = -71.080176
+    let fenceCenterLongitude = -71.080176
     
     let fenceRadius = 50.0
 
@@ -31,21 +32,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        locationManager.startMonitoringForRegion(defineGeofence())
+        
+        let geofence = defineGeofence()
+        locationManager.startMonitoringForRegion(geofence)
+        
+        let actionCategory = UIMutableUserNotificationCategory()
+        actionCategory.identifier = "actionCategory"
+        actionCategory.setActions([NotificationActions.sendMessageOnSlackAction], forContext: .Minimal)
+        
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Sound], categories: [actionCategory])
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        
+        notification.alertBody = "Hello"
+        notification.region = geofence
+        notification.alertAction = "Send"
+        notification.category = "actionCategory"
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
     
     // MARK: - UISwitch
     func isCheckingSwitchIsFlipped() {
         isTracking = isCheckingSwitch.on
-        print("Switch flipped")
+        
+        guard let notificationSetting = UIApplication.sharedApplication().currentUserNotificationSettings() else {
+            return
+        }
+        
+        if notificationSetting.types == .None {
+            let alert = UIAlertController(title: "No location permission", message: "The app has not been granted permission to access your location.", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            presentViewController(alert, animated: true, completion: nil)
+        }
     }
     
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+//        scheduleNotificationWithString("Entered region")
+        
         print("Entered region")
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+//        scheduleNotificationWithString("Exited region")
+        
         print("Exited region")
     }
     
@@ -57,8 +86,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         print("Failed monitoring for region")
     }
     
+//    private func scheduleNotificationWithString(alertBody: String) {
+//        notification.alertBody = alertBody
+//        notification.soundName = "Default"
+//        notification.fireDate = NSDate(timeIntervalSinceNow: 1)
+//        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+//    }
+    
     private func defineGeofence() -> CLRegion {
-        let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLogitude)
+        let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLongitude)
         return CLCircularRegion(center: center, radius: fenceRadius, identifier: "fence")
     }
 
