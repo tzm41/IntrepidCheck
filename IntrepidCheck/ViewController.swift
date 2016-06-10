@@ -48,6 +48,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         notification.alertAction = "Send"
         notification.category = "actionCategory"
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handleSendMessageNotification), name: "sendMessageNotification", object: nil)
+    }
+    
+    func handleSendMessageNotification() {
+        print("Posting on slack...")
     }
     
     // MARK: - UISwitch
@@ -67,14 +73,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-//        scheduleNotificationWithString("Entered region")
-        
         print("Entered region")
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-//        scheduleNotificationWithString("Exited region")
-        
         print("Exited region")
     }
     
@@ -85,13 +87,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
         print("Failed monitoring for region")
     }
-    
-//    private func scheduleNotificationWithString(alertBody: String) {
-//        notification.alertBody = alertBody
-//        notification.soundName = "Default"
-//        notification.fireDate = NSDate(timeIntervalSinceNow: 1)
-//        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-//    }
     
     private func defineGeofence() -> CLRegion {
         let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLongitude)

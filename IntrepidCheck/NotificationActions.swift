@@ -11,7 +11,7 @@ import UIKit
 struct NotificationActions {
 	static var sendMessageOnSlackAction: UIMutableUserNotificationAction {
 		let action = UIMutableUserNotificationAction()
-		action.identifier = "sendMessageOnSlackAction"
+		action.identifier = "sendMessageAction"
 		action.title = "Shout on slack"
 		action.activationMode = UIUserNotificationActivationMode.Background
 		action.destructive = false

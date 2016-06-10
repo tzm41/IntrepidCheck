@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
-        if identifier == "sendMessageOnSlackAction" {
-            NSNotificationCenter.defaultCenter().postNotificationName("sendMessageOnSlackNotification", object: nil)
+        if identifier == "sendMessageAction" {
+            NSNotificationCenter.defaultCenter().postNotificationName("sendMessageNotification", object: nil)
         }
         completionHandler()
     }
