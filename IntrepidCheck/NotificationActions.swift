@@ -10,22 +10,20 @@ import UIKit
 
 struct NotificationActions {
 	static var sendMessageOnEntryAction: UIMutableUserNotificationAction {
-		let sendMessageOnEntryAction = UIMutableUserNotificationAction()
-		sendMessageOnEntryAction.identifier = "sendMessageOnEntryAction"
-		sendMessageOnEntryAction.title = "Shout on Slack"
-		sendMessageOnEntryAction.activationMode = UIUserNotificationActivationMode.Background
-		sendMessageOnEntryAction.destructive = false
-		sendMessageOnEntryAction.authenticationRequired = false
-		return sendMessageOnEntryAction
+        return actionWithIdentifier("sendMessageOnEntryAction")
 	}
     
     static var sendMessageOnExitAction: UIMutableUserNotificationAction {
-        let sendMessageOnExitAction = UIMutableUserNotificationAction()
-        sendMessageOnExitAction.identifier = "sendMessageOnExitAction"
-        sendMessageOnExitAction.title = "Shout on Slack"
-        sendMessageOnExitAction.activationMode = UIUserNotificationActivationMode.Background
-        sendMessageOnExitAction.destructive = false
-        sendMessageOnExitAction.authenticationRequired = false
-        return sendMessageOnExitAction
+        return actionWithIdentifier("sendMessageOnExitAction")
+    }
+    
+    static func actionWithIdentifier(identifier: String) -> UIMutableUserNotificationAction {
+        let action = UIMutableUserNotificationAction()
+        action.identifier = identifier
+        action.title = "Shout on Slack"
+        action.activationMode = UIUserNotificationActivationMode.Background
+        action.destructive = false
+        action.authenticationRequired = false
+        return action
     }
 }
