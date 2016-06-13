@@ -11,86 +11,89 @@ import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Properties
-    @IBOutlet weak var isCheckingSwitch: UISwitch!
-    
+    @IBOutlet private weak var isCheckingSwitch: UISwitch!
+
     let locationManager = CLLocationManager()
-    let notification = UILocalNotification()
-    
-    var isTracking = false
     
     // location of Intrepid Pursuits Third Street Office
-    let fenceCenterLatitude = 42.367063
-    let fenceCenterLongitude = -71.080176
-    
-    let fenceRadius = 50.0
+    private let fenceCenterLatitude = 42.367063
+    private let fenceCenterLongitude = -71.080176
+    private let fenceRadius = 50.0
+    private var geofence: CLRegion?
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        isCheckingSwitch.addTarget(self, action: #selector(ViewController.isCheckingSwitchIsFlipped), forControlEvents: UIControlEvents.ValueChanged)
+		super.viewDidLoad()
+
+		isCheckingSwitch.addTarget(self, action: #selector(ViewController.isCheckingSwitchFlipped), forControlEvents: UIControlEvents.ValueChanged)
+
+		let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLongitude)
+		geofence = CLCircularRegion(center: center, radius: fenceRadius, identifier: "fence")
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-        let geofence = defineGeofence()
-        locationManager.startMonitoringForRegion(geofence)
-        
-        let actionCategory = UIMutableUserNotificationCategory()
-        actionCategory.identifier = "actionCategory"
-        actionCategory.setActions([NotificationActions.sendMessageOnSlackAction], forContext: .Minimal)
-        
-        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Sound], categories: [actionCategory])
-        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
-        
-        notification.alertBody = "Hello"
-        notification.region = geofence
-        notification.alertAction = "Send"
-        notification.category = "actionCategory"
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handleSendMessageNotification), name: "sendMessageNotification", object: nil)
-    }
-    
-    func handleSendMessageNotification() {
-        print("Posting on slack...")
-    }
+        registerNotificationSettings()
+	}
     
     // MARK: - UISwitch
-    func isCheckingSwitchIsFlipped() {
-        isTracking = isCheckingSwitch.on
-        
-        guard let notificationSetting = UIApplication.sharedApplication().currentUserNotificationSettings() else {
-            return
-        }
-        
-        if notificationSetting.types == .None {
-            let alert = UIAlertController(title: "No location permission", message: "The app has not been granted permission to access your location.", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            presentViewController(alert, animated: true, completion: nil)
+    func isCheckingSwitchFlipped() {
+        if isCheckingSwitch.on {
+            enableNotification()
+        } else {
+            disableNotification()
         }
     }
     
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Entered region")
+        scheduleNotificationForBodyAndCategory("Entering region", category: "entryActionCategory")
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("Exited region")
+        scheduleNotificationForBodyAndCategory("Exiting region", category: "exitActionCategory")
     }
     
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
-        print("Successfully started managing for region")
+    private func scheduleNotificationForBodyAndCategory(body: String, category: String) {
+        let notification = UILocalNotification()
+        notification.alertAction = "Swipe to send message"
+        notification.alertBody = body
+        notification.category = category
+        notification.fireDate = NSDate(timeIntervalSinceNow: 0)
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
     
-    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
-        print("Failed monitoring for region")
+    // MARK: - UILocalNotification
+    private func enableNotification() {
+        locationManager.startMonitoringForRegion(geofence!)
     }
     
-    private func defineGeofence() -> CLRegion {
-        let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLongitude)
-        return CLCircularRegion(center: center, radius: fenceRadius, identifier: "fence")
+    private func disableNotification() {
+        locationManager.stopMonitoringForRegion(geofence!)
     }
-
+    
+    private func registerNotificationSettings() {
+        let entryActionCategory = UIMutableUserNotificationCategory()
+        let exitActionCategory = UIMutableUserNotificationCategory()
+        entryActionCategory.identifier = "entryActionCategory"
+        exitActionCategory.identifier = "exitActionCategory"
+        entryActionCategory.setActions([NotificationActions.sendMessageOnEntryAction], forContext: .Minimal)
+        exitActionCategory.setActions([NotificationActions.sendMessageOnExitAction], forContext: .Minimal)
+        
+        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Sound], categories: [entryActionCategory, exitActionCategory])
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        
+        // observers for notification actions
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostEnteringMessageAction), name: "sendMessageOnEntryNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostExitingMessageAction), name: "sendMessageOnExitNotification", object: nil)
+    }
+    
+    // MARK: - AppDelegate
+    func handlePostEnteringMessageAction() {
+        print("Posting message - entering region")
+    }
+    
+    func handlePostExitingMessageAction() {
+        print("Posting message - exiting region")
+    }
 }

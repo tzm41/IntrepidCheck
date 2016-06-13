@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -26,11 +27,20 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome! If you enable location tracking, this app will provide the option to post a message on Slack channel." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gz-eZ-WRF">
+                                <rect key="frame" x="20" y="126" width="560" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xfo-7f-SoJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2fi-hI-1hA"/>
+                            <constraint firstItem="5gz-eZ-WRF" firstAttribute="centerX" secondItem="Z9Q-Nu-fc8" secondAttribute="centerX" id="BQ6-Ct-g0C"/>
+                            <constraint firstItem="5gz-eZ-WRF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="BkR-kO-wEm"/>
                             <constraint firstItem="Z9Q-Nu-fc8" firstAttribute="centerX" secondItem="xfo-7f-SoJ" secondAttribute="centerX" id="RqS-7N-ikL"/>
+                            <constraint firstItem="Z9Q-Nu-fc8" firstAttribute="top" secondItem="5gz-eZ-WRF" secondAttribute="bottom" constant="88" id="jpy-Ra-KeC"/>
                             <constraint firstItem="xfo-7f-SoJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nY1-Lm-ghU"/>
                             <constraint firstItem="xfo-7f-SoJ" firstAttribute="top" secondItem="Z9Q-Nu-fc8" secondAttribute="bottom" constant="8" symbolic="YES" id="vQB-ax-MNW"/>
                         </constraints>
@@ -41,6 +51,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="444" y="457"/>
         </scene>
     </scenes>
 </document>
