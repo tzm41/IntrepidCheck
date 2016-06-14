@@ -13,8 +13,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Properties
     @IBOutlet private weak var isCheckingSwitch: UISwitch!
 
-    let locationManager = CLLocationManager()
-    
+    private let locationManager = CLLocationManager()
+
     // location of Intrepid Pursuits Third Street Office
     private let fenceCenterLatitude = 42.367063
     private let fenceCenterLongitude = -71.080176
@@ -24,19 +24,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
-		super.viewDidLoad()
+        super.viewDidLoad()
 
-		isCheckingSwitch.addTarget(self, action: #selector(ViewController.isCheckingSwitchFlipped), forControlEvents: UIControlEvents.ValueChanged)
+        isCheckingSwitch.addTarget(self, action: #selector(ViewController.isCheckingSwitchFlipped), forControlEvents: UIControlEvents.ValueChanged)
 
-		let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLongitude)
-		geofence = CLCircularRegion(center: center, radius: fenceRadius, identifier: "fence")
-        
+        let center = CLLocationCoordinate2DMake(fenceCenterLatitude, fenceCenterLongitude)
+        geofence = CLCircularRegion(center: center, radius: fenceRadius, identifier: "fence")
+
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
+
         registerNotificationSettings()
-	}
-    
+    }
+
     // MARK: - UISwitch
     func isCheckingSwitchFlipped() {
         if isCheckingSwitch.on {
@@ -45,16 +45,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             disableNotification()
         }
     }
-    
+
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         scheduleNotificationWithBody("Entering region", category: "entryActionCategory")
     }
-    
+
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         scheduleNotificationWithBody("Exiting region", category: "exitActionCategory")
     }
-    
+
     private func scheduleNotificationWithBody(body: String, category: String) {
         let notification = UILocalNotification()
         notification.alertAction = "Swipe to send message"
@@ -63,16 +63,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         notification.fireDate = NSDate(timeIntervalSinceNow: 0)
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
-    
+
     // MARK: - UILocalNotification
     private func enableNotification() {
         locationManager.startMonitoringForRegion(geofence!)
     }
-    
+
     private func disableNotification() {
         locationManager.stopMonitoringForRegion(geofence!)
     }
-    
+
     private func registerNotificationSettings() {
         let entryActionCategory = UIMutableUserNotificationCategory()
         let exitActionCategory = UIMutableUserNotificationCategory()
@@ -80,20 +80,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         exitActionCategory.identifier = "exitActionCategory"
         entryActionCategory.setActions([NotificationActions.sendMessageOnEntryAction], forContext: .Minimal)
         exitActionCategory.setActions([NotificationActions.sendMessageOnExitAction], forContext: .Minimal)
-        
+
         let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Sound], categories: [entryActionCategory, exitActionCategory])
         UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
-        
+
         // observers for notification actions
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostEnteringMessageAction), name: "sendMessageOnEntryNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostExitingMessageAction), name: "sendMessageOnExitNotification", object: nil)
     }
-    
-    // MARK: - AppDelegate
+
     func handlePostEnteringMessageAction() {
         SlackService.sharedService.postMessageWithBody("Checking in at \(locationName)!")
     }
-    
+
     func handlePostExitingMessageAction() {
         SlackService.sharedService.postMessageWithBody("Checking out from \(locationName)!")
     }
