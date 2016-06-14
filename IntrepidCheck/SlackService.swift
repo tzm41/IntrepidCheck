@@ -20,7 +20,8 @@ class SlackService {
         let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
         sessionConfig.HTTPAdditionalHeaders = [
             "Content-Type": "application/json",
-            "Accept": "application/json"]
+            "Accept": "application/json"
+        ]
 
         let session = NSURLSession(configuration: sessionConfig)
         return session
