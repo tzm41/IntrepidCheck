@@ -15,6 +15,7 @@
 		3B6371ED1D09A58D008F76E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B6371EC1D09A58D008F76E3 /* Assets.xcassets */; };
 		3B6371F01D09A58D008F76E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B6371EE1D09A58D008F76E3 /* LaunchScreen.storyboard */; };
 		3B6371FB1D09A58D008F76E3 /* IntrepidCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6371FA1D09A58D008F76E3 /* IntrepidCheckTests.swift */; };
+		3B926D6D1D0FB5D5008D8CB7 /* SlackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B926D6C1D0FB5D5008D8CB7 /* SlackService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		3B6371F61D09A58D008F76E3 /* IntrepidCheckTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntrepidCheckTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B6371FA1D09A58D008F76E3 /* IntrepidCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrepidCheckTests.swift; sourceTree = "<group>"; };
 		3B6371FC1D09A58D008F76E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B926D6C1D0FB5D5008D8CB7 /* SlackService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlackService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		3B6371E41D09A58D008F76E3 /* IntrepidCheck */ = {
 			isa = PBXGroup;
 			children = (
+				3B926D6B1D0FB5B8008D8CB7 /* Networking */,
 				3B6372071D09A623008F76E3 /* ViewController */,
 				3B6372061D09A61B008F76E3 /* Storyboard */,
 				3B6372051D09A5FF008F76E3 /* Supporting Files */,
@@ -124,6 +127,14 @@
 				3B18267D1D0B447A009F49B5 /* NotificationActions.swift */,
 			);
 			name = ViewController;
+			sourceTree = "<group>";
+		};
+		3B926D6B1D0FB5B8008D8CB7 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				3B926D6C1D0FB5D5008D8CB7 /* SlackService.swift */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B926D6D1D0FB5D5008D8CB7 /* SlackService.swift in Sources */,
 				3B6371E81D09A58D008F76E3 /* ViewController.swift in Sources */,
 				3B6371E61D09A58D008F76E3 /* AppDelegate.swift in Sources */,
 				3B18267E1D0B447A009F49B5 /* NotificationActions.swift in Sources */,

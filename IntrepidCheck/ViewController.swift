@@ -20,6 +20,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let fenceCenterLongitude = -71.080176
     private let fenceRadius = 50.0
     private var geofence: CLRegion?
+    private let locationName = "Third St"
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -47,14 +48,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        scheduleNotificationForBodyAndCategory("Entering region", category: "entryActionCategory")
+        scheduleNotificationWithBody("Entering region", category: "entryActionCategory")
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        scheduleNotificationForBodyAndCategory("Exiting region", category: "exitActionCategory")
+        scheduleNotificationWithBody("Exiting region", category: "exitActionCategory")
     }
     
-    private func scheduleNotificationForBodyAndCategory(body: String, category: String) {
+    private func scheduleNotificationWithBody(body: String, category: String) {
         let notification = UILocalNotification()
         notification.alertAction = "Swipe to send message"
         notification.alertBody = body
@@ -90,10 +91,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - AppDelegate
     func handlePostEnteringMessageAction() {
-        print("Posting message - entering region")
+        SlackService.sharedService.postMessageWithBody("Checking in at \(locationName)!")
     }
     
     func handlePostExitingMessageAction() {
-        print("Posting message - exiting region")
+        SlackService.sharedService.postMessageWithBody("Checking out from \(locationName)!")
     }
 }

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  IntrepidCheck
 //
-//  Created by Zhuoming Tan on 6/9/16.
+//  Created by Colin Tan on 6/9/16.
 //  Copyright © 2016 Intrepid Pursuits LLC. All rights reserved.
 //
 
