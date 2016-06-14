@@ -21,6 +21,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let fenceRadius = 50.0
     private var geofence: CLRegion?
     private let locationName = "Third St"
+    
+    let entryNotificationIdentifier = "sendMessageOnEntryNotification"
+    let exitNotificationIdentifier = "sendMessageOnExitNotification"
+    let entryActionCategoryIdentifier = "entryActionCategory"
+    let exitActionCategoryIdentifier = "exitActionCategory"
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -48,11 +53,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     // MARK: - CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        scheduleNotificationWithBody("Entering region", category: "entryActionCategory")
+        scheduleNotificationWithBody("Entering region", category: entryActionCategoryIdentifier)
     }
 
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        scheduleNotificationWithBody("Exiting region", category: "exitActionCategory")
+        scheduleNotificationWithBody("Exiting region", category: exitActionCategoryIdentifier)
     }
 
     private func scheduleNotificationWithBody(body: String, category: String) {
@@ -76,8 +81,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private func registerNotificationSettings() {
         let entryActionCategory = UIMutableUserNotificationCategory()
         let exitActionCategory = UIMutableUserNotificationCategory()
-        entryActionCategory.identifier = "entryActionCategory"
-        exitActionCategory.identifier = "exitActionCategory"
+        entryActionCategory.identifier = entryActionCategoryIdentifier
+        exitActionCategory.identifier = exitActionCategoryIdentifier
         entryActionCategory.setActions([NotificationActions.sendMessageOnEntryAction], forContext: .Minimal)
         exitActionCategory.setActions([NotificationActions.sendMessageOnExitAction], forContext: .Minimal)
 
@@ -85,8 +90,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
 
         // observers for notification actions
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostEnteringMessageAction), name: "sendMessageOnEntryNotification", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostExitingMessageAction), name: "sendMessageOnExitNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostEnteringMessageAction), name: entryNotificationIdentifier, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.handlePostExitingMessageAction), name: exitNotificationIdentifier, object: nil)
     }
 
     func handlePostEnteringMessageAction() {

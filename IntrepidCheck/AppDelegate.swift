@@ -19,20 +19,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        if let vc = self.window?.rootViewController {
-            if notification.category == "entryActionCategory" {
-                presentAlertWithTitle("Entering", message: "You are entering the region", notificationName: "sendMessageOnEntryNotification", viewController: vc)
-            } else if notification.category == "exitActionCategory" {
-                presentAlertWithTitle("Exiting", message: "You are exiting the region", notificationName: "sendMessageOnExitNotification", viewController: vc)
+        if let vc = self.window?.rootViewController as! ViewController? {
+            if notification.category == vc.entryActionCategoryIdentifier {
+                presentAlertWithTitle("Entering", message: "You are entering the region", notificationName: vc.entryNotificationIdentifier, viewController: vc)
+            } else if notification.category == vc.exitActionCategoryIdentifier {
+                presentAlertWithTitle("Exiting", message: "You are exiting the region", notificationName: vc.exitNotificationIdentifier, viewController: vc)
             }
         }
     }
 
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void) {
-        if identifier == "sendMessageOnEntryAction" {
-            NSNotificationCenter.defaultCenter().postNotificationName("sendMessageOnEntryNotification", object: nil)
-        } else if identifier == "sendMessageOnExitAction" {
-            NSNotificationCenter.defaultCenter().postNotificationName("sendMessageOnExitNotification", object: nil)
+        if let vc = self.window?.rootViewController as! ViewController? {
+            if identifier == NotificationActions.entryActionIdentifier {
+                NSNotificationCenter.defaultCenter().postNotificationName(vc.entryNotificationIdentifier, object: nil)
+            } else if identifier == NotificationActions.exitActionIdentifier {
+                NSNotificationCenter.defaultCenter().postNotificationName(vc.exitNotificationIdentifier, object: nil)
+            }
         }
         completionHandler()
     }

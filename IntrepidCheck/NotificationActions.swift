@@ -9,12 +9,15 @@
 import UIKit
 
 struct NotificationActions {
+    static let entryActionIdentifier = "sendMessageOnEntryAction"
+    static let exitActionIdentifier = "sendMessageOnExitAction"
+    
     static var sendMessageOnEntryAction: UIMutableUserNotificationAction {
-        return actionWithIdentifier("sendMessageOnEntryAction")
+        return actionWithIdentifier(entryActionIdentifier)
     }
 
     static var sendMessageOnExitAction: UIMutableUserNotificationAction {
-        return actionWithIdentifier("sendMessageOnExitAction")
+        return actionWithIdentifier(exitActionIdentifier)
     }
 
     private static func actionWithIdentifier(identifier: String) -> UIMutableUserNotificationAction {
